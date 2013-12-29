@@ -27,7 +27,6 @@ bash 'install_libevent' do
   user 'root'
   cwd  Chef::Config['file_cache_path']
   code <<-EOH
-      echo #{libevent}
       tar -zxf #{libevent}.tar.gz
       cd #{libevent}
       ./configure && make && make install
