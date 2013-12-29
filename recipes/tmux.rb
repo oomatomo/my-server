@@ -13,13 +13,13 @@
   end
 end
 
-libevent_name = node[:tmux][:source][:libevent][:name]
-tar_name = node[:tmux][:source][:tmux][:name]
+libevent = "libevent-#{node[:tmux][:libevent][:version]}-stable"
+tmux = "tmux-#{node[:tmux][:version]}"
 
-remote_file "#{Chef::Config['file_cache_path']}/#{libevent_name}.tar.gz" do
+remote_file "#{Chef::Config['file_cache_path']}/#{libevent}.tar.gz" do
   action :create_if_missing
-  source   node[:tmux][:source][:libevent][:url]
-  checksum node[:tmux][:source][:libevent][:checksum]
+  source   "https://github.com/downloads/libevent/libevent/#{libevent}.tar.gz"
+  checksum node[:tmux][:libevent][:checksum]
   notifies :run, 'bash[install_libevent]', :immediately
 end
 
@@ -27,19 +27,19 @@ bash 'install_libevent' do
   user 'root'
   cwd  Chef::Config['file_cache_path']
   code <<-EOH
-      echo #{libevent_name}
-      tar -zxf #{libevent_name}.tar.gz
-      cd #{libevent_name}
+      echo #{libevent}
+      tar -zxf #{libevent}.tar.gz
+      cd #{libevent}
       ./configure && make && make install
     EOH
   action :nothing
-  notifies :create, "remote_file[#{Chef::Config['file_cache_path']}/#{tar_name}.tar.gz]", :immediately
+  notifies :create, "remote_file[#{Chef::Config['file_cache_path']}/#{tmux}.tar.gz]", :immediately
 end
 
-remote_file "#{Chef::Config['file_cache_path']}/#{tar_name}.tar.gz" do
+remote_file "#{Chef::Config['file_cache_path']}/#{tmux}.tar.gz" do
   action :nothing
-  source   node[:tmux][:source][:tmux][:url]
-  checksum node[:tmux][:source][:tmux][:checksum]
+  source   "http://downloads.sourceforge.net/tmux/#{tmux}.tar.gz"
+  checksum node[:tmux][:checksum]
   notifies :run, 'bash[install_tmux]', :immediately
 end
 
@@ -47,9 +47,8 @@ bash 'install_tmux' do
   user 'root'
   cwd  Chef::Config['file_cache_path']
   code <<-EOH
-      echo #{tar_name}
-      tar -zxf #{tar_name}.tar.gz
-      cd #{tar_name}
+      tar -zxf #{tmux}.tar.gz
+      cd #{tmux}
       ./configure && make && make install
     EOH
   action :nothing
