@@ -13,13 +13,13 @@
   end
 end
 
-libevent = "libevent-#{node[:tmux][:libevent][:version]}-stable"
-tmux = "tmux-#{node[:tmux][:version]}"
+libevent = "libevent-#{node['tmux']['libevent']['version']}-stable"
+tmux = "tmux-#{node['tmux']['version']}"
 
 remote_file "#{Chef::Config['file_cache_path']}/#{libevent}.tar.gz" do
   action :create_if_missing
   source   "https://github.com/downloads/libevent/libevent/#{libevent}.tar.gz"
-  checksum node[:tmux][:libevent][:checksum]
+  checksum node['tmux']['libevent']['checksum']
   notifies :run, 'bash[install_libevent]', :immediately
 end
 
@@ -38,7 +38,7 @@ end
 remote_file "#{Chef::Config['file_cache_path']}/#{tmux}.tar.gz" do
   action :nothing
   source   "http://downloads.sourceforge.net/tmux/#{tmux}.tar.gz"
-  checksum node[:tmux][:checksum]
+  checksum node['tmux'][:checksum]
   notifies :run, 'bash[install_tmux]', :immediately
 end
 
