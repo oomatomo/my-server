@@ -1,8 +1,14 @@
 #
-# Cookbook Name:: my-app
+# Cookbook Name:: my-server
 # Recipe:: default
 #
-# Copyright (C) 2013 YOUR_NAME
-# 
+# Copyright (C) 2013 Omagari Tomohisa
+#
 # All rights reserved - Do Not Redistribute
 #
+
+%w{wget gcc make}.each do |pkg|
+  package pkg do
+    action [:install, :upgrade]
+  end
+end

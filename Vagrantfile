@@ -6,7 +6,7 @@ Vagrant.configure("2") do |config|
   config.vm.box = "CentOS-6.4-x86_64-v20130731"
   config.vm.box_url = "http://developer.nrel.gov/downloads/vagrant-boxes/CentOS-6.4-x86_64-v20130731.box"
 
-  config.vm.network :private_network, ip: "33.33.33.10"
+  config.vm.network :private_network, ip: "192.168.30.10"
   config.vm.synced_folder "../data", "/vagrant_data"
 
   # Provider-specific configuration so you can fine-tune various
@@ -14,9 +14,7 @@ Vagrant.configure("2") do |config|
   # Example for VirtualBox:
   #
    config.vm.provider :virtualbox do |vb|
-     vb.gui = true
      vb.name = "my-server"
-     # Use VBoxManage to customize the VM. For example to change memory:
      vb.customize ["modifyvm", :id, "--memory", "2048"]
    end
 
@@ -28,7 +26,8 @@ Vagrant.configure("2") do |config|
 
   config.vm.provision :chef_solo do |chef|
     chef.run_list = [
-        "recipe[my-app::default]"
+        "recipe[my-server::default]",
+        "recipe[my-server::tmux]"
     ]
   end
 end
