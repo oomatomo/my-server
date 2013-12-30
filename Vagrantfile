@@ -28,7 +28,8 @@ Vagrant.configure("2") do |config|
     chef.run_list = [
         "recipe[my-server::default]",
         "recipe[my-server::tmux]",
-        "recipe[perlbrew::default]"
+        "recipe[perlbrew::default]",
+        "recipe[my-server::database]"
     ]
   end
 end
