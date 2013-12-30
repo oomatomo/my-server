@@ -2,4 +2,4 @@ site :opscode
 
 metadata
 cookbook "yum"
-cookbook "perlbrew", git: "https://github.com/aiming-cookbooks/perlbrew.git"
+cookbook "perlbrew", git: "https://github.com/dagolden/perl-chef.git"
