@@ -1,5 +1,4 @@
 
-
 default['database']['host'] = '127.0.0.1'
 
 # for mysql cookbook
