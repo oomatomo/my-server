@@ -12,3 +12,6 @@
     action [:install, :upgrade]
   end
 end
+
+include_recipe "git"
+include_recipe "zsh"
