@@ -24,11 +24,11 @@ perlbrew_root = node['perlbrew']['perlbrew_root']
 perlbrew_bin = "#{perlbrew_root}/bin/perlbrew"
 
 # if we have perlbrew, upgrade it
-execute "perlbrew self-upgrade" do
+bash "perlbrew self-upgrade" do
   user node['user']
   group node['group']
   environment ({'PERLBREW_ROOT' => perlbrew_root})
-  command <<-EOC
+  code <<-EOC
   #{perlbrew_bin} self-upgrade
   #{perlbrew_bin} -f install-patchperl
   #{perlbrew_bin} -f install-cpanm
@@ -37,13 +37,14 @@ execute "perlbrew self-upgrade" do
 end
 
 # if not, install it
-execute "perlbrew-install" do
+bash "perlbrew-install" do
   user node['user']
   group node['group']
   environment ({'PERLBREW_ROOT' => perlbrew_root})
-  command <<-EOC
+  code <<-EOC
   curl -L http://install.perlbrew.pl | bash
   #{perlbrew_bin} -f install-patchperl
+  #{perlbrew_bin} -f install-cpanm
   EOC
   not_if {::File.exists?(perlbrew_bin)}
 end
@@ -51,11 +52,11 @@ end
 # were any perls requested in attributes?
 if node['perlbrew']['perls']
   node['perlbrew']['perls'].each do |p|
-    execute "install perlbrew perl #{p}" do
+    bash "install perlbrew perl #{p}" do
       user node['user']
       group node['group']
       environment ({'PERLBREW_ROOT' => node['perlbrew']['perlbrew_root']})
-      command "#{node['perlbrew']['perlbrew_root']}/bin/perlbrew install #{p}"
+      code "#{node['perlbrew']['perlbrew_root']}/bin/perlbrew install #{p}"
       not_if {::File.exists?("#{node['perlbrew']['perlbrew_root']}/perls/#{p}")}
     end
   end
