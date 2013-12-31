@@ -27,6 +27,7 @@ Vagrant.configure("2") do |config|
   config.vm.provision :chef_solo do |chef|
     chef.run_list = [
         "recipe[my-server::default]",
+        "recipe[my-server::zsh]",
         "recipe[my-server::tmux]",
         "recipe[my-server::database]",
         "recipe[my-server::perlbrew]",
