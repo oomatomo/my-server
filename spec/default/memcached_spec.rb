@@ -19,5 +19,3 @@ end
 describe file('/etc/sysconfig/memcached') do
     it { should be_file }
 end
-
-

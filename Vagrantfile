@@ -13,10 +13,10 @@ Vagrant.configure("2") do |config|
   # backing providers for Vagrant. These expose provider-specific options.
   # Example for VirtualBox:
   #
-   config.vm.provider :virtualbox do |vb|
-     vb.name = "my-server"
-     vb.customize ["modifyvm", :id, "--memory", "1024"]
-   end
+  config.vm.provider :virtualbox do |vb|
+    vb.name = "my-server"
+    vb.customize ["modifyvm", :id, "--memory", "1024"]
+  end
 
   config.ssh.max_tries = 40
   config.ssh.timeout   = 120
