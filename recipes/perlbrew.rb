@@ -28,11 +28,11 @@ bash "perlbrew self-upgrade" do
   user node['user']
   group node['group']
   environment ({'PERLBREW_ROOT' => perlbrew_root})
-  code <<-EOC
+  code <<-EOH
   #{perlbrew_bin} self-upgrade
   #{perlbrew_bin} -f install-patchperl
   #{perlbrew_bin} -f install-cpanm
-  EOC
+  EOH
   only_if {::File.exists?(perlbrew_bin) and node['perlbrew']['self_upgrade']}
 end
 
@@ -41,11 +41,11 @@ bash "perlbrew-install" do
   user node['user']
   group node['group']
   environment ({'PERLBREW_ROOT' => perlbrew_root})
-  code <<-EOC
+  code <<-EOH
   curl -L http://install.perlbrew.pl | bash
   #{perlbrew_bin} -f install-patchperl
   #{perlbrew_bin} -f install-cpanm
-  EOC
+  EOH
   not_if {::File.exists?(perlbrew_bin)}
 end
 
