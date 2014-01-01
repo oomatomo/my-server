@@ -15,3 +15,9 @@ end
 describe process("memcached") do
     it { should be_running }
 end
+
+describe file('/etc/sysconfig/memcached') do
+    it { should be_file }
+end
+
+
