@@ -1,5 +1,4 @@
 default['memcached']['user'] = 'memcached'
-default['memcached']['group'] = 'memcached'
 default['memcached']['memory'] = 64
 default['memcached']['port'] = 11_211
 default['memcached']['udp_port'] = 11_211

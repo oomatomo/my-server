@@ -26,7 +26,6 @@ template '/etc/sysconfig/memcached' do
   variables(
     :listen      => node['memcached']['listen'],
     :user        => node['memcached']['user'],
-    :group       => node['memcached']['group'],
     :port        => node['memcached']['port'],
     :udp_port    => node['memcached']['udp_port'],
     :maxconn     => node['memcached']['maxconn'],
