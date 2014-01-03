@@ -34,3 +34,7 @@ template '/etc/sysconfig/memcached' do
   )
   notifies :restart, 'service[memcached]'
 end
+
+service 'memcached' do
+  action :start
+end

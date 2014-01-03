@@ -7,7 +7,7 @@
 # All rights reserved - Do Not Redistribute
 #
 
-%w{wget gcc make vim}.each do |pkg|
+%w{curl wget gcc make vim}.each do |pkg|
   package pkg do
     action [:install, :upgrade]
   end

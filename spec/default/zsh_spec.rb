@@ -1,5 +1,9 @@
 require 'spec_helper'
 
+describe package('zsh') do
+  it { should be_installed }
+end
+
 describe command('cat /etc/shells') do
     it { should return_stdout /\/bin\/zsh/ }
 end

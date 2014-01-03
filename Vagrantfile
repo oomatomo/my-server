@@ -26,12 +26,14 @@ Vagrant.configure("2") do |config|
 
   config.vm.provision :chef_solo do |chef|
     chef.run_list = [
-        "recipe[my-server::default]",
-        "recipe[my-server::zsh]",
-        "recipe[my-server::tmux]",
-        "recipe[my-server::database]",
-        "recipe[my-server::perlbrew]",
-        "recipe[my-server::memcached]"
+      "recipe[my-server::default]",
+      "recipe[my-server::tmux]",
+      "recipe[my-server::database]",
+      "recipe[my-server::perlbrew]",
+      "recipe[my-server::memcached]",
+      "recipe[my-server::rbenv]",
+      "recipe[my-server::zsh]",
+      "recipe[my-server::dotfiles]"
     ]
   end
 end
