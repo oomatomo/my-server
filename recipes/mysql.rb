@@ -49,6 +49,12 @@ if node['platform_family'] == 'rhel'
   package "MySQL-devel" do
     action :nothing
     source "#{Chef::Config[:file_cache_path]}/MySQL-devel-#{rpm_name}.rpm"
+    notifies :restart, "service[mysql]", :delayed
+  end
+
+  service "mysql" do
+    action [:enable, :start]
+    supports :restart => true
   end
 
 end
