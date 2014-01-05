@@ -11,3 +11,7 @@ end
 describe package('MySQL-devel') do
   it { should be_installed }
 end
+
+describe service('mysql') do
+    it { should be_running }
+end
