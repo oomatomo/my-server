@@ -7,6 +7,10 @@
 # All rights reserved - Do Not Redistribute
 #
 
+include_recipe "yum"
+include_recipe "git"
+include_recipe "build-essential"
+
 execute "yum update" do
     command <<-EOH
     rpm -Uvh http://dl.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm
@@ -19,6 +23,3 @@ end
     action [:install, :upgrade]
   end
 end
-
-include_recipe "git"
-include_recipe "build-essential"
