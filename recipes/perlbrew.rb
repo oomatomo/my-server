@@ -19,16 +19,12 @@ directory node['perlbrew']['home'] do
 end
 
 # from https://github.com/aiming-cookbooks/perlbrew/blob/master/recipes/default.rb
-
 perlbrew_home = node['perlbrew']['home']
 perlbrew_bin = "#{perlbrew_home}/bin/perlbrew"
 
 # if we have perlbrew, upgrade it
-bash "perlbrew self-upgrade" do
-  user node['user']
-  group node['group']
-  environment ({'PERLBREW_ROOT' => perlbrew_home})
-  code <<-EOH
+my_server_perlbrew "perlbrew self-upgrade" do
+  command <<-EOH
   #{perlbrew_bin} self-upgrade
   #{perlbrew_bin} -f install-patchperl
   #{perlbrew_bin} -f install-cpanm
@@ -37,11 +33,8 @@ bash "perlbrew self-upgrade" do
 end
 
 # if not, install it
-bash "perlbrew-install" do
-  user node['user']
-  group node['group']
-  environment ({'PERLBREW_ROOT' => perlbrew_home})
-  code <<-EOH
+my_server_perlbrew "perlbrew-install" do
+  command <<-EOH
   curl -L http://install.perlbrew.pl | bash
   #{perlbrew_bin} -f install-patchperl
   #{perlbrew_bin} -f install-cpanm
@@ -52,12 +45,22 @@ end
 # were any perls requested in attributes?
 if node['perlbrew']['perls']
   node['perlbrew']['perls'].each do |p|
-    bash "install perlbrew perl #{p}" do
-      user node['user']
-      group node['group']
-      environment ({'PERLBREW_ROOT' => perlbrew_home})
-      code "#{perlbrew_home}/bin/perlbrew install #{p}"
+    my_server_perlbrew "install perlbrew perl #{p}" do
+      command "#{perlbrew_bin} install #{p}"
       not_if {::File.exists?("#{perlbrew_home}/perls/#{p}")}
+    end
+    if node['perlbrew']['modules']
+      node['perlbrew']['modules'].each do |m|
+        my_server_perlbrew "install #{m} perl in #{p}" do
+          command <<-EOH
+          source #{node['perlbrew']['home']}/etc/bashrc
+          perlbrew use #{p}
+          cpanm install #{m}
+          EOH
+        end
+      end
     end
   end
 end
+
+
